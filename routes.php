@@ -11,7 +11,7 @@
 
     // explode()関数:第二引数の文字列を、第一引数の文字で分割し、配列で返す
     $parameters = explode('/', $_GET['url']);
-    // $_GET['url'] = 'blogs/indes';
+    // $_GET['url'] = 'blogs/index'(初期画面);
     // $parameters = array('blogs','index');
 
 
@@ -21,7 +21,7 @@
     $id = 1;
     $post = array();
     
-    // オプションの定義
+    // オプションの定義 $idがオプションとなる 引数として使用
     if(isset($parameters[2])){
         $id = $parameters[2];
     }

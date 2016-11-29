@@ -29,7 +29,7 @@
                 $rtn[] = $result;
             }
 
-            var_dump($rtn);
+            // var_dump($rtn);
             return $rtn;
         }
 
@@ -60,6 +60,7 @@
         }
 
         function edit($id){
+            // editしたデータをまず呼び出さないとupdateできない
             $sql = 'SELECT * FROM `blogs` WHERE `delete_flag` = 0 AND `id` =' . $id;
             $results = mysqli_query($this->dbconnect,$sql) or die(mysqli_error($this->dbconnect));
 
@@ -75,8 +76,8 @@
                    mysqli_real_escape_string($this->dbconnect,$post['title']),
                    mysqli_real_escape_string($this->dbconnect,$post['body']),
                    $post['id']
+                   // $postはユーザーが入力しないのでインジェクション対策はいらない
                 );
-             // $postはユーザーが入力しないのでインジェクション対策はいらない
             mysqli_query($this->dbconnect,$sql) or die(mysqli_error($this->dbconnect));
         }
 
@@ -84,6 +85,7 @@
             special_echo('Modelのdelete()を呼び出しました');
             // 物理削除
             // $sql = 'DELETE FROM `blogs` WHERE `id` = ' . $id;
+            // DBから消してしまうとマーケティング上よろしくない
             
             // 論理削除
             $sql = 'UPDATE `blogs` SET `delete_flag` = 1 WHERE `id` = '. $id;

@@ -51,7 +51,7 @@
           <?php 
             include('views/' . $this->resource . '/' . $this->action . '.php');
            ?>
-
+           <!-- ↑こう書かないと変数が読み込まれない -->
            </div>
           </div>
         </div>

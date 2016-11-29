@@ -23,6 +23,7 @@
         case 'create';
         if(!empty($post['title']) && !empty($post['body'])){
             $controller->create($post);
+            // titleとbodyに入力があればcreateメソッドに進む
         }else{
             $controller->add();
         }
@@ -49,9 +50,13 @@
     class BlogsController{
 
         private $blog;
-        private $resource;
+        // Blogクラスに接続するため
+        private $resource; 
+        // リソース名
         private $action;
+        // アクション名
         private $viewOptions;
+        // テーブルのカラムを配列に格納
 
         function __construct(){
             $this->blog = new Blog();
@@ -74,8 +79,6 @@
             special_echo('Controllerのshow()が呼び出されました。');
             special_echo('$idは'.$id.'です');
             $this->viewOptions = $this->blog->show($id);
-            // 戻り値 $rtnを受け取る
-            // special_var_dump($this->viewOptions);
             $this->action = 'show';
             $this->display();
         }
@@ -104,7 +107,7 @@
         function update($post){
             special_echo('controllerのupdate()が呼び出されました');
             $this->blog->update($post);
-            header('Location: index');
+            // header('Location: index');
         }
 
         function delete($id){
