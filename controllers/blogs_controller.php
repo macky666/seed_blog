@@ -1,6 +1,7 @@
 <?php 
     // 制御ファイル
     require('models/blog.php');
+    // require('models/user.php');
     special_echo ('blogs_controller.phpが呼び出されました');
 
     // インスタンス化
@@ -13,7 +14,7 @@
         break;
 
         case 'show';
-        $controller->show($id);
+        $controller->show($option);
         break;
 
         case 'add';
@@ -30,7 +31,7 @@
         break;
 
         case 'edit';
-        $controller->edit($id);
+        $controller->edit($option);
         break;
 
         case 'update';
@@ -38,7 +39,15 @@
         break;
 
         case 'delete';
-        $controller->delete($id);
+        $controller->delete($option);
+        break;
+
+        case 'like':
+        $controller->like($option);
+        break;
+
+        case 'unlike':
+        $controller->unlike($option);
         break;
 
         default;
@@ -56,7 +65,9 @@
         private $action;
         // アクション名
         private $viewOptions;
-        // テーブルのカラムを配列に格納
+        // オプション テーブルのカラムを配列に格納
+
+        // private $user;
 
         function __construct(){
             $this->blog = new Blog();
@@ -64,7 +75,9 @@
             $this->action = 'index';
             $this->viewOptions = array();
 
+            // $this->user = new User();
         }
+
         // 一覧ページ表示アクション
         function index(){
             special_echo('Controllerのindex()が呼び出されました');
@@ -75,10 +88,13 @@
         }
 
         // 詳細ページ表示アクション
-        function show($id){
+        function show($option){
+            // ログイン判定
+            // $user = $this->user->is_login();
             special_echo('Controllerのshow()が呼び出されました。');
-            special_echo('$idは'.$id.'です');
-            $this->viewOptions = $this->blog->show($id);
+            special_echo('$idは' . $option . 'です。');
+            // special_var_dump($user);
+            $this->viewOptions = $this->blog->show($option);
             $this->action = 'show';
             $this->display();
         }
@@ -95,11 +111,11 @@
             header('Location: index');
         }
 
-        function edit($id){
+        function edit($option){
             special_echo('Controllerのedit()が呼び出されました');
 
             // model処理
-            $this->viewOptions = $this->blog->edit($id);
+            $this->viewOptions = $this->blog->edit($option);
             $this->action = 'edit';
             $this->display();
         }
@@ -110,11 +126,25 @@
             // header('Location: index');
         }
 
-        function delete($id){
+        function delete($option){
             special_echo('controllerのdelete()が呼び出されました');
-            $this->blog->delete($id);
+            $this->blog->delete($option);
             // header('Location: ../index');
         }
+
+        function like($option) {
+            is_login();
+            special_echo('Controllerのlike()が呼び出されました。');
+            $this->blog->like($option);
+            header('Location: ../index');
+        }
+
+        function unlike($option) {
+            is_login();
+            special_echo('Controllerのunlike()が呼び出されました。');
+            $this->blog->unlike($option);
+            header('Location: ../index');
+          }
 
         // Viewを表示するメソッド
         function display(){

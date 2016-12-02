@@ -1,5 +1,6 @@
 <?php
     // 総合窓口的ファイル
+    session_start();
     require('functions.php');
     special_echo('routes.phpを通りました');
 
@@ -18,12 +19,12 @@
     // GETパラメータで指定されたリソース名とアクション名を取得
     $resource = $parameters[0];
     $action = $parameters[1];
-    $id = 1;
+    $option = 1;
     $post = array();
     
     // オプションの定義 $idがオプションとなる 引数として使用
     if(isset($parameters[2])){
-        $id = $parameters[2];
+        $option = $parameters[2];
     }
 
     if(!empty($_POST)){
