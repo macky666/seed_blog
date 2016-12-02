@@ -64,9 +64,28 @@
             return $login_flag;
         }
 
+        function edit($option) {
+            $sql = 'SELECT * FROM `users` WHERE `id` = ' . $option;
+            $results = mysqli_query($this->dbconnect, $sql) or die(mysqli_error($this->dbconnect));
+
+            $rtn = mysqli_fetch_assoc($results);
+            return $rtn;
+        }
+
+        function update($post) {
+            $user = current_user();
+            $sql = sprintf('UPDATE `users` SET `name` = "%s", `email` = "%s"
+                                           WHERE `id` = %d',
+                        mysqli_real_escape_string($this->dbconnect,$post['name']),
+                        mysqli_real_escape_string($this->dbconnect,$post['email']),
+                        $user['id']
+                    );
+            mysqli_query($this->dbconnect, $sql) or die(mysqli_error($this->dbconnect));
+        }
+
         // // ログイン判定
         // function is_login() {
-        //     if (isset($_SESSION['id']) && $_SESSION['time'] + 3600 > time()) {
+//     if (isset($_SESSION['id']) && $_SESSION['time']  3600 > time()) {
         //         // ログインしていると判定し、idを元にログインユーザーの情報を取得
         //         $_SESSION['time'] = time();
 
